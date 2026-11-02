@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html >
+<!--From https://codepen.io/frytyler/pen/EGdtg-->
+<head>
+  <meta charset="UTF-8">
+  <title>Parkinsons disease prediction</title>
+  <link href='https://fonts.googleapis.com/css?family=Pacifico' rel='stylesheet' type='text/css'>
+<link href='https://fonts.googleapis.com/css?family=Arimo' rel='stylesheet' type='text/css'>
+<link href='https://fonts.googleapis.com/css?family=Hind:300' rel='stylesheet' type='text/css'>
+<link href='https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300' rel='stylesheet' type='text/css'>
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/likess.css') }}">
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style1.css') }}">
+<!-- <link href="style.css" rel="stylesheet" type='text/css' > -->
+
+</head>
+<body class="bg-success" >
+ <div class="login">
+    <div class="heading-h1">
+        <font size="6">
+        <h1>Parkinsons Disease Detection</h1>
+    </div>
+    <div class="result">
+        <font size="7"> 
+	    <p><b>{{ prediction_text }}</b></p>
+    </div>
+
+    <!-- Main Input For Receiving a WAV file for ML prediction -->
+    <form method="POST" action="{{ url_for('predict') }}" enctype="multipart/form-data">
+        <div style="margin: 20px 0; text-align:center;">
+            <label for="audio_file" style="font-size:18px;">Upload a recorded WAV file (sustained vowel preferred)</label><br>
+            <input type="file" id="audio_file" name="audio_file" accept=".wav" required style="margin-top:10px;" />
+        </div>
+        <div style="text-align:center;">
+            <button type="submit" class="btn btn-primary btn-block btn-success btn-large">Diagnose from WAV</button>
+        </div>
+        {% if error %}
+        <div style="color:#b00; text-align:center; margin-top:12px;"><strong>{{ error }}</strong></div>
+        {% endif %}
+        {% if prediction_text %}
+        <div style="color:#060; text-align:center; margin-top:12px;"><strong>{{ prediction_text }}</strong></div>
+        {% endif %}
+    </form>
+    
+    <form action="/submit_comment" method="post">
+        <textarea name="comment" placeholder="add your comment!" rows="4" cols="50"></textarea><br>
+        <input type="submit" value="Submit comment" href="admindashboard.html">
+    </form>
+    
+    <ul>
+        <li><b>MDVP:Fo(Hz)</b> - Average vocal fundamental frequency</li>
+        <li><b>MDVP:Fhi(Hz)</b> - Maximum vocal fundamental frequency</li>
+        <li><b>MDVP:Flo(Hz)</b> - Minimum vocal fundamental frequency</li>
+        <li><b>MDVP:Jitter(%)</b> - Several measures of variation in fundamental frequency</li>
+        <li><b>MDVP:Shimmer</b> - Several measures of variation in amplitude</li>
+        <li><b>NHR</b> - Two measures of ratio of noise to tonal components in the voice</li>
+        <li><b>RPDE, D2</b> - Two nonlinear dynamical complexity measures</li>
+        <li><b>DFA</b> - Signal fractal scaling exponent</li>
+        <li><b>spread1, spread2</b> - Three nonlinear measures of fundamental frequency variation</li>
+            </ul>
+    
+ </div>
+ <div class="like-container">
+    <button id="like_button" class="icon like" onclick="toggleLike()"></button>
+    <button id="dislike_button" class="icon dislike" onclick="toggleDislike()"></button>
+</div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="{{ url_for('static', filename='js/likes.js') }}"></script>
+
+</body>
+</html>

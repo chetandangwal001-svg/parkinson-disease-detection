@@ -1,0 +1,7 @@
+flask
+numpy
+scikit-learn
+pandas
+imbalanced-learn
+mysql-connector-python
+praat-parselmouth
